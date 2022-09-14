@@ -17,7 +17,9 @@
 
 <ul id="list">
 <c:forEach var="list" items="${todoList}">
-<li id=${ list.no}>${ list.no} ${list.contents }<span class="close">x</span></li>
+<li <c:if test="${list.todoyn eq '1' }">class='checked'</c:if>
+		<c:if test="${list.todoyn ne '1' }">class='check'</c:if>
+		>${ list.no} ${list.contents }<span class="close">x</span></li>
 </c:forEach>
 </ul>
 <script>
@@ -30,10 +32,14 @@ function newElement(){
     dataType :'json',
     success:function(data){
     	console.log(data.no)
-    	$('#list').append("<li id='"+data.no+"'>"+data.no+" "+data.contents+"<span class='close'>x</span></li>");
+    	if(data.todoyn ==1)(
+    	$('#list').append("<li class='checked'>"+data.no+" "+data.contents+"<span class='close'>x</span></li>")
+    	)
+    	else if(data.todoyn !=1)(
+    	$('#list').append("<li class='check'>"+data.no+" "+data.contents+"<span class='close'>x</span></li>")
+    	)
     },
     error:function(data){}
-
   })
 }
 $(document).on('click', '.close', function(e){
